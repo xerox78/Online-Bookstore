@@ -9,6 +9,8 @@ import com.xerox78.onlinebookstore.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.xerox78.onlinebookstore.mapper.AuthorMapper.mapToAuthor;
+
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
@@ -27,10 +29,4 @@ public class AuthorServiceImpl implements AuthorService {
         authorRepository.save(author);
     }
 
-    private Author mapToAuthor(AuthorDto authorDto) {
-        return Author.builder()
-                .id(authorDto.getId())
-                .name(authorDto.getName())
-                .build();
-    }
 }
