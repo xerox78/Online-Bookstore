@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -27,7 +26,7 @@ public class Book
     private String bookId;
     private String title;
     @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
-    private Set<Author> authors = new HashSet<>();
+    private List<Author> authors = new ArrayList<>();
     private String isbn;
     private String description;
     private BigInteger price;

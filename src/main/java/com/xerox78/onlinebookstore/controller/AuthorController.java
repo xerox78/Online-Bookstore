@@ -11,11 +11,29 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 public class AuthorController {
 
     @Autowired
     private AuthorService authorService;
+
+    @GetMapping("/authors")
+    public String authorsList(Model model)
+    {
+        List<AuthorDto> authors = authorService.findAllAuthors();
+
+        model.addAttribute("authors", authors);
+        return "authors-list";
+    }
+    @GetMapping("/authors/{authorId}")
+    public String viewAuthor(@PathVariable("authorId") Long authorId, Model model)
+    {
+       AuthorDto authorDto = authorService.findByAuthorId(authorId);
+       model.addAttribute("author", authorDto);
+       return "authors-detail";
+    }
 
     @GetMapping("/authors/{bookId}/new")
     public String createAuthorForm(@PathVariable("bookId") Long bookId, Model model)

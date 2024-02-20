@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -25,4 +26,5 @@ public class BookDto
     private String publisher;
     private LocalDateTime publicationDate;
     private int quantityAvailable;
+    private List<AuthorDto> authors;
 }

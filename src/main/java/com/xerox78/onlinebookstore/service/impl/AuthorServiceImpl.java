@@ -1,6 +1,7 @@
 package com.xerox78.onlinebookstore.service.impl;
 
 import com.xerox78.onlinebookstore.dto.AuthorDto;
+import com.xerox78.onlinebookstore.mapper.AuthorMapper;
 import com.xerox78.onlinebookstore.models.Author;
 import com.xerox78.onlinebookstore.models.Book;
 import com.xerox78.onlinebookstore.repository.AuthorRepository;
@@ -9,7 +10,12 @@ import com.xerox78.onlinebookstore.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import static com.xerox78.onlinebookstore.mapper.AuthorMapper.mapToAuthor;
+import static com.xerox78.onlinebookstore.mapper.AuthorMapper.mapToAuthorDto;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
@@ -27,6 +33,20 @@ public class AuthorServiceImpl implements AuthorService {
         author.setBook(book);
 
         authorRepository.save(author);
+    }
+
+    @Override
+    public List<AuthorDto> findAllAuthors() {
+        List<Author> authors = authorRepository.findAll();
+
+        return authors.stream().map(AuthorMapper::mapToAuthorDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public AuthorDto findByAuthorId(Long authorId) {
+        Author author = authorRepository.findById(authorId).get();
+
+        return mapToAuthorDto(author);
     }
 
 }

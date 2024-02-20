@@ -11,4 +11,10 @@ public class AuthorMapper {
                 .name(authorDto.getName())
                 .build();
     }
+    public static AuthorDto mapToAuthorDto(Author author) {
+        return AuthorDto.builder()
+                .id(author.getId())
+                .name(author.getName())
+                .build();
+    }
 }

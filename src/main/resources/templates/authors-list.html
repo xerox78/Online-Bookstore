@@ -1,0 +1,25 @@
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+>
+<body class="d-flex flex-column h-100" xmlns:th="http://www.w3.org/1999/xhtml">
+<main class="flex-shrink-0">
+    <!-- Page Content-->
+    <section layout:fragment="body" class="py-5">
+        <div class="container px-5 my-5">
+            <div class="text-center mb-5">
+                <h1 class="fw-bolder">Authors</h1>
+                <p class="lead fw-normal text-muted mb-0">All Authors</p>
+            </div>
+            <div class="row gx-5">
+                <div th:each="author : ${authors}" class="col-lg-6 mb-2">
+                    <h1 th:text="'AUTHOR: ' + ${author.name}"></h1>
+                   <!-- <a class="btn btn-primary" th:href="@{/books/{bookId}(bookId=${book.id})}">VIEW</a>
+                    <a class="btn btn-primary" th:href="@{/books/{bookId}/edit(bookId=${book.id})}">EDIT</a>-->
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>
