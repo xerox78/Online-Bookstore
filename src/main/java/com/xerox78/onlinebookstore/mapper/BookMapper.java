@@ -21,6 +21,7 @@ public class BookMapper {
                 .publicationDate(book.getPublicationDate())
                 .publisher(book.getPublisher())
                 .quantityAvailable(book.getQuantityAvailable())
+                .createdBy(book.getCreatedBy())
                 .build();
     }
 
@@ -37,6 +38,7 @@ public class BookMapper {
                 .publisher(book.getPublisher())
                 .quantityAvailable(book.getQuantityAvailable())
                 .authors(book.getAuthors().stream().map(AuthorMapper::mapToAuthorDto).collect(Collectors.toList()))
+                .createdBy(book.getCreatedBy())
                 .build();
 
 

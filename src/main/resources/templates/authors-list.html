@@ -14,8 +14,10 @@
             <div class="row gx-5">
                 <div th:each="author : ${authors}" class="col-lg-6 mb-2">
                     <h1 th:text="'AUTHOR: ' + ${author.name}"></h1>
-                   <!-- <a class="btn btn-primary" th:href="@{/books/{bookId}(bookId=${book.id})}">VIEW</a>
-                    <a class="btn btn-primary" th:href="@{/books/{bookId}/edit(bookId=${book.id})}">EDIT</a>-->
+                    <a class="btn btn-primary" th:href="@{/authors/{authorId}(authorId=${author.id})}">View</a>
+                    <div th:if="${user.id} == ${author.book.createdBy.id}">
+                        <a class="btn btn-primary" th:href="@{/authors/{authorId}/edit(authorId=${author.id})}">Edit</a>
+                    </div>
                 </div>
             </div>
         </div>

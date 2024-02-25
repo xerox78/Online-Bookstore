@@ -1,6 +1,7 @@
 package com.xerox78.onlinebookstore.service.impl;
 
 import com.xerox78.onlinebookstore.dto.AuthorDto;
+import com.xerox78.onlinebookstore.dto.BookDto;
 import com.xerox78.onlinebookstore.mapper.AuthorMapper;
 import com.xerox78.onlinebookstore.models.Author;
 import com.xerox78.onlinebookstore.models.Book;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 import static com.xerox78.onlinebookstore.mapper.AuthorMapper.mapToAuthor;
 import static com.xerox78.onlinebookstore.mapper.AuthorMapper.mapToAuthorDto;
+import static com.xerox78.onlinebookstore.mapper.BookMapper.mapToBook;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
@@ -48,5 +50,18 @@ public class AuthorServiceImpl implements AuthorService {
 
         return mapToAuthorDto(author);
     }
+
+    @Override
+    public void updateAuthor(AuthorDto authorDto) {
+        Author author = mapToAuthor(authorDto);
+
+        authorRepository.save(author);
+    }
+
+    @Override
+    public void deleteAuthor(long authorId) {
+        authorRepository.deleteById(authorId);
+    }
+
 
 }

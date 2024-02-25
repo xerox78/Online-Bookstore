@@ -9,12 +9,14 @@ public class AuthorMapper {
         return Author.builder()
                 .id(authorDto.getId())
                 .name(authorDto.getName())
+                .book(authorDto.getBook())
                 .build();
     }
     public static AuthorDto mapToAuthorDto(Author author) {
         return AuthorDto.builder()
                 .id(author.getId())
                 .name(author.getName())
+                .book(author.getBook())
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.xerox78.onlinebookstore.dto;
 
+import com.xerox78.onlinebookstore.models.UserEntity;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -27,4 +28,5 @@ public class BookDto
     private LocalDateTime publicationDate;
     private int quantityAvailable;
     private List<AuthorDto> authors;
+    private UserEntity createdBy;
 }

@@ -2,7 +2,10 @@ package com.xerox78.onlinebookstore.controller;
 
 import com.xerox78.onlinebookstore.dto.BookDto;
 import com.xerox78.onlinebookstore.models.Book;
+import com.xerox78.onlinebookstore.models.UserEntity;
+import com.xerox78.onlinebookstore.security.SecurityUtil;
 import com.xerox78.onlinebookstore.service.BookService;
+import com.xerox78.onlinebookstore.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,20 +22,38 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/books")
     public String listBooks(Model model)
     {
+        UserEntity userEntity = getUserEntity();
         List<BookDto> allBooks = bookService.findAllBooks();
-        System.out.println(allBooks);
+
+        model.addAttribute("user", userEntity);
         model.addAttribute("books", allBooks);
 
         return "books-list";
     }
 
+    private UserEntity getUserEntity() {
+        UserEntity userEntity = new UserEntity();
+        String username = SecurityUtil.getSessionUser();
+        if (username != null)
+        {
+            userEntity = userService.findByUsername(username);
+        }
+        return userEntity;
+    }
+
     @GetMapping("/books/{bookId}")
     public String bookDetail(@PathVariable("bookId") long bookId, Model model)
     {
+        UserEntity userEntity = getUserEntity();
+
         BookDto bookDto = bookService.findBookById(bookId);
+        model.addAttribute("user", userEntity);
         model.addAttribute("book", bookDto);
         return "books-detail";
     }
@@ -68,10 +89,11 @@ public class BookController {
     @PostMapping("/books/{bookId}/edit")
     public String updateBook(@PathVariable("bookId") long bookId,
                              @Valid @ModelAttribute("book") BookDto bookDto,
-                            BindingResult bindingResult)
+                            BindingResult bindingResult, Model model)
     {
         if (bindingResult.hasErrors())
         {
+            model.addAttribute("book", bookDto);
             return "books-edit";
         }
         bookDto.setId(bookId);

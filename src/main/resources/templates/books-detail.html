@@ -28,8 +28,10 @@
                             <div class="small text-muted" th:text="${book.isbn}">January 1, 2023</div>
                             <h2 class="card-title">About</h2>
                             <p class="card-text" th:text="${book.description}"></p>
-                            <a class="btn btn-primary" th:href="@{/books/{bookId}/delete(bookId=${book.id})}">Delete</a>
-                            <a class="btn btn-primary" th:href="@{/authors/{bookId}/new(bookId=${book.id})}">Create Author</a>
+                            <div th:if="${user.id} == ${book.createdBy.id}">
+                                <a class="btn btn-primary" th:href="@{/books/{bookId}/delete(bookId=${book.id})}">Delete</a>
+                                <a class="btn btn-primary" th:href="@{/authors/{bookId}/new(bookId=${book.id})}">Create Author</a>
+                            </div>
                         </div>
                     </div>
                     <!-- Nested row for non-featured blog posts-->
@@ -42,7 +44,7 @@
                                     <div class="small text-muted">January 1, 2023</div>
                                     <h2 th:text="${author.name}" class="card-title h4"></h2>
                                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
-                                    <a class="btn btn-primary" href="#!">Read more →</a>
+                                    <a class="btn btn-primary" th:href="@{/authors/{authorId}(authorId=${author.id})}">More →</a>
                                 </div>
                             </div>
                     </div>
@@ -93,6 +95,7 @@
                         <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use, and feature the Bootstrap 5 card component!</div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </section>

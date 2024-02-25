@@ -33,4 +33,7 @@ public class Book
     private String publisher;
     private LocalDateTime publicationDate;
     private int quantityAvailable;
+    @ManyToOne
+    @JoinColumn(name = "created_by", nullable = false)
+    private UserEntity createdBy;
 }

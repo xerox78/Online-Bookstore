@@ -3,7 +3,10 @@ package com.xerox78.onlinebookstore.service.impl;
 import com.xerox78.onlinebookstore.dto.BookDto;
 import com.xerox78.onlinebookstore.mapper.BookMapper;
 import com.xerox78.onlinebookstore.models.Book;
+import com.xerox78.onlinebookstore.models.UserEntity;
 import com.xerox78.onlinebookstore.repository.BookRepository;
+import com.xerox78.onlinebookstore.repository.UserRepository;
+import com.xerox78.onlinebookstore.security.SecurityUtil;
 import com.xerox78.onlinebookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,8 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<BookDto> findAllBooks() {
@@ -28,7 +33,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book saveBook(BookDto bookDto) {
+        String username = SecurityUtil.getSessionUser();
+        UserEntity user = userRepository.findByUsername(username);
         Book book = mapToBook(bookDto);
+        book.setCreatedBy(user);
         return bookRepository.save(book);
     }
 
@@ -40,8 +48,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void updateBook(BookDto bookDto) {
+        String username = SecurityUtil.getSessionUser();
+        UserEntity user = userRepository.findByUsername(username);
         Book book = mapToBook(bookDto);
-
+        book.setCreatedBy(user);
         bookRepository.save(book);
     }
 

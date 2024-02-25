@@ -26,10 +26,10 @@
                     <a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
                     <div class="card-body">
                         <div class="small text-muted" th:text="${author.name}">January 1, 2023</div>
-                        <h2 class="card-title">About</h2>
-                <!--        <p class="card-text" th:text="${book.description}"></p>
-                        <a class="btn btn-primary" th:href="@{/books/{bookId}/delete(bookId=${book.id})}">Delete</a>
-                        <a class="btn btn-primary" th:href="@{/authors/ {bookId}/new(bookId=${book.id})}">Create Author</a>-->
+                        <h2 class="card-title">About this Author</h2>
+                        <div th:if="${user.id} == ${author.book.createdBy.id}">
+                            <a class="btn btn-primary" th:href="@{/authors/{authorId}/delete(authorId=${author.id})}">Delete</a>
+                        </div>
                     </div>
                 </div>
                 <!-- Side widgets-->
