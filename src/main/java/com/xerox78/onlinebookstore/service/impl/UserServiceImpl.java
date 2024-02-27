@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.xerox78.onlinebookstore.security.SecurityConfig.passwordEncoder;
-
 @Service
 public class UserServiceImpl implements UserService {
 

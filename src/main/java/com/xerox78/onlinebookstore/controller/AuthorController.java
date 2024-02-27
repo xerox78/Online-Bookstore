@@ -6,24 +6,27 @@ import com.xerox78.onlinebookstore.models.Author;
 import com.xerox78.onlinebookstore.models.UserEntity;
 import com.xerox78.onlinebookstore.security.SecurityUtil;
 import com.xerox78.onlinebookstore.service.AuthorService;
+import com.xerox78.onlinebookstore.service.BookService;
 import com.xerox78.onlinebookstore.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.xerox78.onlinebookstore.security.SecurityUtil.isUserAnAdmin;
 
 @Controller
 public class AuthorController {
 
     @Autowired
     private AuthorService authorService;
+
+    @Autowired
+    private BookService bookService;
 
     @Autowired
     private UserService userService;
@@ -43,7 +46,7 @@ public class AuthorController {
         List<AuthorDto> authors = authorService.findAllAuthors();
 
         model.addAttribute("authors", authors);
-        model.addAttribute("user", user);
+        model.addAttribute("isAdmin", isUserAnAdmin(user));
         return "authors-list";
     }
 
@@ -52,8 +55,10 @@ public class AuthorController {
         UserEntity user = getUserEntity();
 
         AuthorDto authorDto = authorService.findByAuthorId(authorId);
+        List <BookDto> booksDto = bookService.findBooksByAuthorId(authorId);
         model.addAttribute("author", authorDto);
-        model.addAttribute("user", user);
+        model.addAttribute("books", booksDto);
+        model.addAttribute("isAdmin", isUserAnAdmin(user));
 
         return "authors-detail";
     }
@@ -96,7 +101,6 @@ public class AuthorController {
         }
         AuthorDto author = authorService.findByAuthorId(authorId);
         authorDto.setId(authorId);
-        authorDto.setBook(author.getBook());
         authorService.updateAuthor(authorDto);
 
         return "redirect:/authors";
@@ -106,5 +110,13 @@ public class AuthorController {
     public String deleteAuthor(@PathVariable("authorId") long authorId) {
         authorService.deleteAuthor(authorId);
         return "redirect:/authors";
+    }
+
+    @GetMapping("/authors/search")
+    public String searchAuthor(@RequestParam(value = "query") String query, Model model)
+    {
+        List<AuthorDto> authorsDto = authorService.searchAuthors(query);
+        model.addAttribute("authors", authorsDto);
+        return "authors-list";
     }
 }

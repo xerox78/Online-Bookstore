@@ -12,6 +12,9 @@
                     </div>
                     <div class="text-center mb-5">
                         <h1 class="fw-bolder">Books Near You</h1>
+                        <div th:if="${isAdmin}">
+                            <a class="btn btn-primary" th:href="@{/books/form}">Add Book</a>
+                        </div>
                         <p class="lead fw-normal text-muted mb-0">All books available</p>
                     </div>
                     <div class="row gx-5">
@@ -20,11 +23,20 @@
                                 <input name="query" class="form-control mr-sm-2 mb-5" type="search" placeholder="Search book" aria-label="Search">
                             </form>
                         </div>
-                        <div th:each="book : ${books}" class="col-lg-6 mb-2">
-                            <h1 th:text="'BOOK: ' + ${book.title}"></h1>
-                            <a class="btn btn-primary" th:href="@{/books/{bookId}(bookId=${book.id})}">VIEW</a>
-                            <div th:if="${user.id} == ${book.createdBy.id}">
-                                <a class="btn btn-primary" th:href="@{/books/{bookId}/edit(bookId=${book.id})}">EDIT</a>
+                        <div th:each="book : ${books}" class="col-lg-2 col-md-4 col-sm-6 mb-2">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-auto">
+                                        <img th:src="${book.photoUrl}" class="img-fluid"/>
+                                        <h3 th:text="${book.title}" class="mt-3" style="word-wrap:break-word; width:100%; text-align:center;"></h3>
+                                        <div class="d-flex gap-2" role="group">
+                                            <a class="btn btn-primary" th:href="@{/books/{bookId}(bookId=${book.id})}">VIEW</a>
+                                            <div th:if="${isAdmin}">
+                                                <a class="btn btn-secondary" th:href="@{/books/{bookId}/edit(bookId=${book.id})}">EDIT</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

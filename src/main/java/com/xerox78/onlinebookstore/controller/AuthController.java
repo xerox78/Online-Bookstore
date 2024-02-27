@@ -4,7 +4,6 @@ import com.xerox78.onlinebookstore.dto.RegistrationDto;
 import com.xerox78.onlinebookstore.models.UserEntity;
 import com.xerox78.onlinebookstore.service.UserService;
 import jakarta.validation.Valid;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,7 +55,7 @@ public class AuthController {
             return "register";
         }
         userService.saveUser(user);
-        return "redirect:/books?success";
+        return "redirect:/login?success";
     }
 
 }

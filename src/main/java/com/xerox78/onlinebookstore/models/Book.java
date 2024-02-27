@@ -2,37 +2,39 @@ package com.xerox78.onlinebookstore.models;
 
 import jakarta.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "books")
+@EqualsAndHashCode(exclude="authors")
 public class Book
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String bookId;
     private String title;
-    @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
-    private List<Author> authors = new ArrayList<>();
     private String isbn;
+    private String photoUrl;
     private String description;
     private BigInteger price;
     private String publisher;
     private LocalDateTime publicationDate;
     private int quantityAvailable;
+
+    @ManyToMany
+    @JoinTable(name = "book_author",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
+    private Set<Author> authors = new HashSet<>();
+
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
     private UserEntity createdBy;

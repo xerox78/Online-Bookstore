@@ -17,4 +17,6 @@ public interface BookService {
     void delete(long bookId);
 
     List<BookDto> searchBooks(String query);
+
+    List<BookDto> findBooksByAuthorId(Long authorId);
 }

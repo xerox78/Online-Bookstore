@@ -67,5 +67,12 @@ public class BookServiceImpl implements BookService {
         return books.stream().map(BookMapper::mapToBookDto).collect(Collectors.toList());
     }
 
+    @Override
+    public List<BookDto> findBooksByAuthorId(Long authorId) {
+        List<Book> booksByAuthorId = bookRepository.findBooksByAuthorId(authorId);
+
+        return booksByAuthorId.stream().map(BookMapper::mapToBookDto).collect(Collectors.toList());
+    }
+
 
 }

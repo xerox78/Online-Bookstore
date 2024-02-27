@@ -1,23 +1,24 @@
 package com.xerox78.onlinebookstore.service.impl;
 
 import com.xerox78.onlinebookstore.dto.AuthorDto;
-import com.xerox78.onlinebookstore.dto.BookDto;
 import com.xerox78.onlinebookstore.mapper.AuthorMapper;
 import com.xerox78.onlinebookstore.models.Author;
 import com.xerox78.onlinebookstore.models.Book;
 import com.xerox78.onlinebookstore.repository.AuthorRepository;
 import com.xerox78.onlinebookstore.repository.BookRepository;
 import com.xerox78.onlinebookstore.service.AuthorService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.xerox78.onlinebookstore.mapper.AuthorMapper.mapToAuthor;
 import static com.xerox78.onlinebookstore.mapper.AuthorMapper.mapToAuthorDto;
-import static com.xerox78.onlinebookstore.mapper.BookMapper.mapToBook;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
@@ -28,13 +29,31 @@ public class AuthorServiceImpl implements AuthorService {
     private AuthorRepository authorRepository;
 
     @Override
+    @Transactional
     public void createAuthor(Long bookId, AuthorDto authorDto)
     {
-        Book book = bookRepository.findById(bookId).get();
+        // Save the new author to the database
         Author author = mapToAuthor(authorDto);
-        author.setBook(book);
+        Author savedAuthor = authorRepository.save(author);
 
-        authorRepository.save(author);
+        // Retrieve the book by ID and link it to the author
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with id " + bookId));
+
+        // Establish the bidirectional relationship
+        if (savedAuthor.getBooks() == null)
+        {
+            savedAuthor.setBooks(Set.of(book));
+        }
+        else
+        {
+            savedAuthor.getBooks().add(book);
+        }
+        book.getAuthors().add(savedAuthor);
+
+        // Save the book to update the relationship, assuming cascading is properly configured
+        // Depending on your JPA cascading settings, this might not be necessary
+        bookRepository.save(book);
     }
 
     @Override
@@ -55,12 +74,23 @@ public class AuthorServiceImpl implements AuthorService {
     public void updateAuthor(AuthorDto authorDto) {
         Author author = mapToAuthor(authorDto);
 
+        Optional<Author> byId = authorRepository.findById(author.getId());
+
+        author.setBooks(byId.get().getBooks());
+
         authorRepository.save(author);
     }
 
     @Override
     public void deleteAuthor(long authorId) {
         authorRepository.deleteById(authorId);
+    }
+
+    @Override
+    public List<AuthorDto> searchAuthors(String query) {
+        List<Author> authors = authorRepository.searchAuthors(query);
+
+        return authors.stream().map(AuthorMapper::mapToAuthorDto).collect(Collectors.toList());
     }
 
 

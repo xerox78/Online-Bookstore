@@ -14,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class BookController {
@@ -31,7 +30,7 @@ public class BookController {
         UserEntity userEntity = getUserEntity();
         List<BookDto> allBooks = bookService.findAllBooks();
 
-        model.addAttribute("user", userEntity);
+        model.addAttribute("isAdmin", SecurityUtil.isUserAnAdmin(userEntity));
         model.addAttribute("books", allBooks);
 
         return "books-list";
@@ -53,7 +52,7 @@ public class BookController {
         UserEntity userEntity = getUserEntity();
 
         BookDto bookDto = bookService.findBookById(bookId);
-        model.addAttribute("user", userEntity);
+        model.addAttribute("isAdmin", SecurityUtil.isUserAnAdmin(userEntity));
         model.addAttribute("book", bookDto);
         return "books-detail";
     }

@@ -12,7 +12,6 @@
         <div class="container">
             <div class="text-center my-5">
                 <h1 class="fw-bolder" th:text="${author.name}"></h1>
-                <p class="lead mb-0">Filler text</p>
             </div>
         </div>
     </header>
@@ -23,50 +22,31 @@
             <div class="col-lg-8">
                 <!-- Featured blog post-->
                 <div class="card mb-4">
-                    <a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                    <a th:href="${author.photoUrl}"><img class="card-img-top" th:src="${author.photoUrl}" alt="Author Photo" /></a>
                     <div class="card-body">
-                        <div class="small text-muted" th:text="${author.name}">January 1, 2023</div>
-                        <h2 class="card-title">About this Author</h2>
-                        <div th:if="${user.id} == ${author.book.createdBy.id}">
+                        <div class="small text-muted" th:text="${author.name}"></div>
+                        <div th:if="${isAdmin}">
                             <a class="btn btn-primary" th:href="@{/authors/{authorId}/delete(authorId=${author.id})}">Delete</a>
                         </div>
                     </div>
                 </div>
-                <!-- Side widgets-->
-                <div class="col-lg-4">
-                    <!-- Search widget-->
-                    <div class="card mb-4">
-                        <div class="card-header">Search</div>
-                        <div class="card-body">
-                            <div class="input-group">
-                                <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
-                                <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                <!-- Nested row for non-featured blog posts-->
+                <div class="row">
+                    <!-- Blog entries-->
+                    <div class="col-lg-8">
+                        <!-- Featured blog post-->
+                        <div th:each="book :${books}" class="card mb-4">
+                            <a th:href="${book.photoUrl}"><img class="card-img-top" th:src="${book.photoUrl}" alt="Book Cover" /></a>
+                            <div class="card-body">
+                                <div class="small text-muted" th:text="${book.title}"></div>
+                                <a class="btn btn-primary" th:href="@{/books/{bookId}(bookId=${book.id})}">VIEW</a>
                             </div>
                         </div>
-                    </div>
-                    <!-- Categories widget-->
-                    <div class="card mb-4">
-                        <div class="card-header">Categories</div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><a href="#!">Web Design</a></li>
-                                        <li><a href="#!">HTML</a></li>
-                                        <li><a href="#!">Freebies</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Side widget-->
-                    <div class="card mb-4">
-                        <div class="card-header">Side Widget</div>
-                        <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use, and feature the Bootstrap 5 card component!</div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </section>
 </body>
 </html>
