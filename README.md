@@ -13,46 +13,7 @@ The Online Bookstore is a comprehensive platform designed to facilitate an engag
 
 ## Advanced Features
 
-- **Payment Gateway Integration**: The application integrates with a payment gateway to facilitate secure and efficient processing of payments, offering users a variety of payment options.
 - **Spring Boot Actuator**: Implemented for monitoring the application’s health and performance, providing insights into the application's runtime operations and environment.
 - **Docker Deployment**: The application is containerized using Docker, streamlining the deployment process and ensuring consistency across different environments by encapsulating the application and its dependencies into a Docker container.
 
 This platform is designed with scalability and security in mind, leveraging the strengths of the Spring framework and modern development practices to provide a user-friendly and reliable online bookstore.
-
-
-
-2. What is it?
-Spring framework that simplifies HTTP request and responses.
-MVC - model-view-controller
-
-Controller layer -> URL 
-Model Layer -> Data representation 
-View Layer -> Web page
-
-Dispatcher Servlet -> Front controller, pattern
-Handler Mapping
-
-
-3. Models Needed
-Books
-@Entity 
-@Id -> primary key
-@GeneratedValue -> increment automatically 
-
-4. CRUD
-create, update, get, delete
-
-5. DTO 
-data transfer object -> models Book to DTO, we don't want the data to be floating around the app
-
-6. Service 
-
-specific methods with multiple repository calls
-
-
-Validation should be on the DTO
-
-7. JPQL
-
-Named vs index
-contains vs like
