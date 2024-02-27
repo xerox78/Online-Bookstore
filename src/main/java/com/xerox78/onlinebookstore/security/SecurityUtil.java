@@ -23,6 +23,10 @@ public class SecurityUtil {
 
 
     public static boolean isUserAnAdmin(UserEntity user) {
-        return user.getRoles().stream().anyMatch(role -> Objects.equals(role.getName(), "ADMIN"));
+        if (user != null)
+        {
+            return user.getRoles().stream().anyMatch(role -> Objects.equals(role.getName(), "ADMIN"));
+        }
+        return false;
     }
 }

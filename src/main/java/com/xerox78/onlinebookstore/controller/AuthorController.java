@@ -73,7 +73,7 @@ public class AuthorController {
     }
 
     @PostMapping("/authors/{bookId}")
-    public String createAuthor(@PathVariable("bookId") Long bookId, @ModelAttribute("author") AuthorDto authorDto, BindingResult bindingResult, Model model) {
+    public String createAuthor(@PathVariable("bookId") Long bookId, @Valid @ModelAttribute("author") AuthorDto authorDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("author", authorDto);
             return "books-create";

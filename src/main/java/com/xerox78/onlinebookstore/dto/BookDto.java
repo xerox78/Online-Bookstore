@@ -3,8 +3,10 @@ package com.xerox78.onlinebookstore.dto;
 import com.xerox78.onlinebookstore.models.UserEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -13,6 +15,8 @@ import java.util.Set;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookDto
 {
     private Long id;
